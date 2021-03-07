@@ -15,30 +15,26 @@
   </form>
   <?php
     echo '<h2>' . 投稿内容一覧 . '</h2>';
-    //DB接続
-    $dsn = 'mysql:host=localhost;dbname=php_lesson_3;charset=utf8';
-    $user = 'user';
-    $pass = 'password';
-    try{
-      $dbh = new PDO($dsn,$user,$pass);
-      echo 'DB接続成功';
-    }catch(PDOException $e) {
-      echo 'DB接続エラー';
-    }
-
-    //DBに値を登録
-    $user_name = $_POST['user_name'];
-    $user_text = $_POST['user_text'];
-    $insert_sql = 'INSERT INTO PostData(name) VALUES(:name)';
-    $insert_stmt = $dbh->prepare($insert_sql);
-    $insert_stmt->bindValue(':name', $user_name, PDO::PARAM_STR);
-    $insert_stmt->execute();
-
-    //DBから値を取得
-    $select_sql = 'SELECT * FROM PostData';
-    $select_stmt = $dbh->query($sql);
-    foreach($stmt as $value) {
-      echo $value['text'];
+    if(!empty($_POST['back_page'])){
+      //DB接続
+      $dsn = 'mysql:host=localhost;dbname=php_lesson_3;charset=utf8';
+      $user = 'user';
+      $pass = 'password';
+      try{
+        $dbh = new PDO($dsn,$user,$pass);
+        //DBから値を取得
+        $select_sql = 'SELECT * FROM PostData';
+        $stmt = $dbh->query($select_sql);
+        foreach($stmt as $value){
+          echo '<table width="300" border="1">';
+          echo 'No:' . $value['id'] . '<br>';
+          echo '名前:' . $value['name'] . '<br>';
+          echo '投稿内容:' . $value['text'] . '<br>';
+          echo '</table>' . '<br>';
+        }
+      }catch(PDOException $e) {
+        echo 'DB接続エラー';
+      }
     }
   ?>
 </body>
