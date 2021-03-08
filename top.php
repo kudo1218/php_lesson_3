@@ -27,9 +27,13 @@
         $stmt = $dbh->query($select_sql);
         foreach($stmt as $value){
           echo '<table width="300" border="1">';
+          echo '<form action="delete_page.php" method="post">';
           echo 'No:' . $value['id'] . '<br>';
           echo '名前:' . $value['name'] . '<br>';
           echo '投稿内容:' . $value['text'] . '<br>';
+          //↓この値設定の仕方ができて良かった
+          echo '<button name="button" value="' . $value['id'] . '">削除</button>';
+          echo '</form>';
           echo '</table>' . '<br>';
         }
       }catch(PDOException $e) {
