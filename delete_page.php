@@ -23,9 +23,6 @@
     //↓$_POST[]に入れるのはbutton、ここ苦戦した
     $params = array('id'=>$_POST['button']);
     $stmt->execute($params);
-
-    $alter_sql = 'ALTER TABLE PostData AUTO_INCREMENT=1';
-    $stmt = $dbh->query($alter_sql);
   }catch(PDOException $e) {
     echo 'DB接続エラー';
   }

@@ -25,10 +25,12 @@
         //DBから値を取得
         $select_sql = 'SELECT * FROM PostData';
         $stmt = $dbh->query($select_sql);
+        $no = 0;
         foreach($stmt as $value){
+          $no++;
           echo '<table width="300" border="1">';
           echo '<form action="delete_page.php" method="post">';
-          echo 'No:' . $value['id'] . '<br>';
+          echo 'No:' . $no . '<br>';
           echo '名前:' . $value['name'] . '<br>';
           echo '投稿内容:' . $value['text'] . '<br>';
           //↓この値設定の仕方ができて良かった
