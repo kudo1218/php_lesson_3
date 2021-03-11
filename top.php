@@ -1,3 +1,18 @@
+<?php
+  $no = 0;
+  try{
+    //DB接続
+    $dsn = 'mysql:host=localhost;dbname=php_lesson_3;charset=utf8';
+    $user = 'user';
+    $pass = 'password';
+    $dbh = new PDO($dsn,$user,$pass);
+    //DBから値を取得
+    $select_sql = 'SELECT * FROM PostData';
+    $stmt = $dbh->query($select_sql);
+  }catch(PDOException $e) {
+    echo 'DB接続エラー';
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,29 +28,17 @@
     <textarea rows="20" cols="30" name="user_text"></textarea><br>
     <input type="submit" value="投稿">
   </form>
-  <?php
-    echo '<h2>' . 投稿内容一覧 . '</h2>';
-    if(!empty($_POST['back_page'])){
-      //DB接続
-      $dsn = 'mysql:host=localhost;dbname=php_lesson_3;charset=utf8';
-      $user = 'user';
-      $pass = 'password';
-      try{
-        $dbh = new PDO($dsn,$user,$pass);
-        //DBから値を取得
-        $select_sql = 'SELECT * FROM PostData';
-        $stmt = $dbh->query($select_sql);
-        foreach($stmt as $value){
-          echo '<table width="300" border="1">';
-          echo 'No:' . $value['id'] . '<br>';
-          echo '名前:' . $value['name'] . '<br>';
-          echo '投稿内容:' . $value['text'] . '<br>';
-          echo '</table>' . '<br>';
-        }
-      }catch(PDOException $e) {
-        echo 'DB接続エラー';
-      }
-    }
-  ?>
+<?php foreach($stmt as $value): ?>
+  <?php $no++; ?>
+  <table width="300" border="1">
+    <form action="delete_page.php" method="post">
+      No <?php echo $no ?><br>
+      名前: <?php echo $value['name'] ?><br>
+      投稿内容: <?php echo $value['text'] ?><br>
+      <input type="hidden" name="hidden" value="<?php echo $value['id'] ?>">
+      <button name="button">削除</button>
+    </form>
+  </table>
+<?php endforeach; ?>
 </body>
 </html>
