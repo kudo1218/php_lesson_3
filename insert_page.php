@@ -4,10 +4,10 @@
     $user = 'user';
     $pass = 'password';
     $dbh = new PDO($dsn,$user,$pass);
-    //対象IDの値を削除
-    $delete_sql = 'DELETE FROM PostData WHERE id = :id';
-    $stmt = $dbh->prepare($delete_sql);
-    $params = array('id'=>$_POST['delete_button']);
+    //フォームに入力された値を登録
+    $insert_sql = 'INSERT INTO PostData(name,text) VALUES(:name, :text)';
+    $stmt = $dbh->prepare($insert_sql);
+    $params = array(':name'=>$_POST['user_name'],':text'=>$_POST['user_text']);
     $stmt->execute($params);
   }catch(PDOException $e) {
     echo 'DB接続エラー';
@@ -17,10 +17,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>投稿削除ページ</title>
+  <title>投稿完了ページ</title>
 </head>
 <body>
-  <h2>投稿の削除が完了しました。</h2>
+  <h2>投稿が完了しました。</h2>
   <form action="top.php" method="post">
     <input type="submit" value="投稿一覧へ戻る" name="back_page">
   </form>
